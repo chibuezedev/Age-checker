@@ -1,5 +1,5 @@
 {
-  "name": "Age-checker",
+  "name": "age-checker",
   "version": "1.0.0",
   "description": "Build and deploy a very simple age-checker API",
   "main": "app.js",
@@ -24,7 +24,6 @@
     "express": "^4.18.2",
     "express-rate-limit": "^6.6.0",
     "helmet": "^6.0.0",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "timeago.js": "^4.0.2"
   }
