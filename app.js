@@ -23,7 +23,7 @@ app.use(cors ({
 
 
 //api middlewares
-app.use('/api', ageRoutes)
+app.use(ageRoutes)
 
 //error handler middleware
 app.use((error, req, res, next) => {
