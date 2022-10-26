@@ -1,9 +1,7 @@
 const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
 const bodyParser = require('body-parser');
-
-const ageRoutes = require("./routes/ageRoute");
+const { format } = require("timeago.js");
+const { rateLimit } = require("express-rate-limit");
 
 
 const app = express();
@@ -12,18 +10,48 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}))
-app.use(helmet())
 
-//cors policy middleware
-app.use(cors ({
-    origin: "*",
-    methods: "POST, GET, PUT, PATCH, DELETE",
-    allowedHeaders: "Content-Type, Authorization"
-}))
+
+//request limiter function
+const limitRequest = rateLimit({
+    windowMs: 1000,
+    max: 3,
+    message: "Try again after one second",
+    statusCode: 429
+  });
 
 
 //api middlewares
-app.use(ageRoutes)
+app.get("/howold", limitRequest, (req, res, next) => {
+
+    try {
+
+      const dob = req.query.dob;
+
+      if (dob === undefined || dob === "") {
+        return res.status(400).send("Please add a valid query parameter");
+      }
+  
+     //format to standard
+      const firstDate = dob.split(" ")[0];
+      const secondDate = dob.split(" ")[1];
+
+      const finalDate = `${firstDate} + ${secondDate}`;
+  
+      // check for valid inputs
+      if (new Date(finalDate).toString() === "Invalid Date") {
+        let error = new Error("Invalid Date format");
+        error.statusCode = 400;
+        throw error;
+      }
+  
+      const timestamp = format(finalDate);
+      res.status(200).send(timestamp);
+    } catch (err) {
+      next(err);
+    }
+  });
+
 
 //error handler middleware
 app.use((error, req, res, next) => {
