@@ -5,7 +5,7 @@ const ageController = require('../controller/ageController')
 const limitRequests = require('../utils/limiter')
 
 
-router.get('/howold', limitRequests, ageController.getAge )
+router.post('/howold', limitRequests, ageController.getAge )
 
 
 module.exports = router;
