@@ -8,12 +8,13 @@ const ageRoutes = require("./routes/ageRoute");
 
 const app = express();
 
+//default middlewares
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}))
 app.use(helmet())
 
-
+//cors policy middleware
 app.use(cors ({
     origin: "*",
     methods: "POST, GET, PUT, PATCH, DELETE",
@@ -21,10 +22,10 @@ app.use(cors ({
 }))
 
 
-
+//api middlewares
 app.use('/api/v1', ageRoutes)
 
-
+//error handler middleware
 app.use((error, req, res, next) => {
     console.log(error)
     const status = error.statusCode || 500
@@ -34,8 +35,8 @@ app.use((error, req, res, next) => {
 })
 
 
-const port = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
 
-app.listen(port, () => {
-    console.log(`server listening on port ${port} ....`)
+app.listen(PORT, () => {
+    console.log(`server listening on port ${PORT} ....`)
 })
