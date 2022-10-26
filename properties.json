@@ -3,6 +3,6 @@
     "track": "backend",
     "email": "chibuezedeveloper@gmail.com",
     "githubUsername": "chibuezedev",
-    "deployedAppURL": "https://sharefood-age-checker-api.herokuapp.com/",
+    "deployedAppURL": "https://sharefood-api.onrender.com",
     "explainer": "This API takes in a date of birth (DOB) query parameter, calculate the age with the DOB and return the age."
 }
